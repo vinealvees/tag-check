@@ -1,0 +1,12 @@
+galaxy_info:
+  author: Vinicius A Santos // Github vinealvees
+  description: This role can add/remove/list tags on EC2 instances and volumes
+  license: license (GPL-2.0-or-later, MIT, etc)
+  min_ansible_version: 2.9
+  galaxy_tags: 
+    aws
+    ec2
+    instances
+    volumes
+    amazon
+    cloud

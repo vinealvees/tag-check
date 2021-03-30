@@ -1,0 +1,6 @@
+---
+# defaults file for tag-check
+
+AWSAccessKey: aws_access_key_here
+AWSSecretAccessKey: aws_secret_access_key_here
+AWSRegion: aws_region_here

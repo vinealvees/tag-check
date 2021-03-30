@@ -1,0 +1,55 @@
+---
+# tasks file for tag-check
+
+- name: Getting information about EC2 instances
+  ec2_instance_info:
+  register: ec2_ins
+- name: Running EC2 instances tags backup
+  local_action:
+    module: copy
+    content: "{{ item.instance_id }}{{ item.tags }}"
+    dest: "tag-check/files/{{ item.instance_id }}.tag"
+  with_items: "{{ ec2_ins.instances }}"
+# - name: Show EC2 data
+#   debug:
+#     msg: "{{ item.instance_id }} {{ item.tags }}"
+#   with_items: "{{ ec2_ins.instances }}"
+- name: Setting EC2 instances tags
+  ec2_tag:
+    region: us-west-2
+    resource: '{{ item.instance_id }}'
+    state: present
+    tags:
+      application: "tag-ec2"
+      function: "tag-ec2"
+      owner: "tag-ec2"
+      billing: "tag-ec2"
+      product: "tag-ec2"
+      backup: "tag-ec2"
+  with_items: '{{ ec2_ins.instances }}'      
+- name: Getting information about EC2 volumes
+  ec2_vol_info:
+  register: ec2_vol    
+# - name: Show data
+#   debug:
+#     msg: '{{ item.id }}'
+#   with_items: '{{ ec2_vol.volumes }}'
+- name: Running EC2 volumes tags backup
+  local_action:
+    module: copy
+    content: "{{ item.id }}{{ item.tags }}"
+    dest: "tag-check/files/{{ item.id }}.tag"
+  with_items: "{{ ec2_vol.volumes }}"
+- name: Setting EC2 volumes tags
+  ec2_tag:
+    region: us-west-2
+    resource: '{{ item.id }}'
+    state: present
+    tags:
+      application: "tag-volume"
+      function: "tag-volume"
+      owner: "tag-volume"
+      billing: "tag-volume"
+      product: "tag-volume"
+      backup: "tag-volume"
+  loop: '{{ ec2_vol.volumes }}'
