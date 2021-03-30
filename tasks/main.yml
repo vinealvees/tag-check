@@ -16,7 +16,7 @@
 #   with_items: "{{ ec2_ins.instances }}"
 - name: Setting EC2 instances tags
   ec2_tag:
-    region: us-west-2
+    region: "{{ AWSRegion }}"
     resource: '{{ item.instance_id }}'
     state: present
     tags:
@@ -42,7 +42,7 @@
   with_items: "{{ ec2_vol.volumes }}"
 - name: Setting EC2 volumes tags
   ec2_tag:
-    region: us-west-2
+    region: "{{ AWSRegion }}"
     resource: '{{ item.id }}'
     state: present
     tags:
